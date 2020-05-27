@@ -1,9 +1,8 @@
 import * as vscode from 'vscode';
-
 const Beautifier = require('js-beautify').html;
 
 const editor = vscode.workspace.getConfiguration('editor');
-const config = vscode.workspace.getConfiguration('blade');
+const config = vscode.workspace.getConfiguration('livewire');
 
 function beautify(document: vscode.TextDocument, range: vscode.Range) {
     const result = [];
@@ -35,50 +34,50 @@ function beautify(document: vscode.TextDocument, range: vscode.Range) {
 
 
 function activate(context: vscode.ExtensionContext) {
-    console.log('Livewire activated!');
+	console.log('Livewire activated!');
 
-    const LANGUAGES = {scheme: 'file', language: 'blade'};
+	const LANGUAGES = { scheme: 'file', language: 'livewire' };
 
-    if (config.format.enable === true) {
-        context.subscriptions.push(
-            vscode.languages.registerDocumentFormattingEditProvider(LANGUAGES, {
-                provideDocumentFormattingEdits(document: vscode.TextDocument) {
-                    const start = new vscode.Position(0, 0);
-                    const end = new vscode.Position(
-                        document.lineCount - 1,
-                        document.lineAt(document.lineCount - 1).text.length
-                    );
-                    const rng = new vscode.Range(start, end);
+	if (config.format.enable === true) {
+		context.subscriptions.push(
+			vscode.languages.registerDocumentFormattingEditProvider(LANGUAGES, {
+				provideDocumentFormattingEdits(document: vscode.TextDocument) {
+					const start = new vscode.Position(0, 0);
+					const end = new vscode.Position(
+						document.lineCount - 1,
+						document.lineAt(document.lineCount -1).text.length
+					);
+					const rng = new vscode.Range(start, end);
 
-                    return beautify(document, rng);
-                }
-            })
-        );
+					return beautify(document, rng);
+				}
+			})
+		);
 
-        context.subscriptions.push(
-            vscode.languages.registerDocumentRangeFormattingEditProvider(LANGUAGES, {
-                provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range) {
-                    let end = range.end
+		context.subscriptions.push(
+			vscode.languages.registerDocumentRangeFormattingEditProvider(LANGUAGES, {
+					provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range) {
+						let end = range.end
 
-                    if (end.character === 0) {
-                        end = end.translate(-1, Number.MAX_VALUE);
-                    } else {
-                        end = end.translate(0, Number.MAX_VALUE);
-                    }
+						if (end.character === 0) {
+							end = end.translate(-1, Number.MAX_VALUE);
+						} else {
+							end = end.translate(0, Number.MAX_VALUE);
+						}
 
-                    const rng = new vscode.Range(new vscode.Position(range.start.line, 0), end)
+						const rng = new vscode.Range(new vscode.Position(range.start.line, 0), end)
 
-                    return beautify(document, rng);
-                }
-            })
-        );
-    }
+						return beautify(document, rng);
+					}
+				}
+			)
+		)
+	}
 }
 
-function deactivate() {
-}
+function deactivate() {}
 
 export {
-    activate,
-    deactivate,
+	activate,
+	deactivate,
 }

@@ -1,4 +1,4 @@
-.vscode/**
-.vscode-test/**
+.vscode
 .gitignore
-vsc-extension-quickstart.md
+.eslintrc.json
+tsconfig.json
