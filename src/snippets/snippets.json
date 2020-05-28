@@ -1,0 +1,23 @@
+{
+    // "livewire": {
+    //     "description": "",
+    //     "prefix": "@livewire",
+    //     "body": [
+    //         "@livewire('${1:component}'${2:, ['${3:key}' => '${4:value}']})$0"
+    //     ]
+    // },
+    // "livewireStyles": {
+    //     "description": "",
+    //     "prefix": "@livewireStyles",
+    //     "body": [
+    //         "@livewireStyles$0"
+    //     ]
+    // },
+    // "livewireScripts": {
+    //     "description": "",
+    //     "prefix": "@livewireScripts",
+    //     "body": [
+    //         "@livewireScripts$0"
+    //     ]
+    // }
+}
