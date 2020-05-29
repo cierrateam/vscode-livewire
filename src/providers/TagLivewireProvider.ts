@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import {Uri} from "vscode";
+import {getAllComponents} from "../util/util";
 
 export class TagLivewireProvider {
 
@@ -18,17 +20,15 @@ export class TagLivewireProvider {
 
 export class TagLivewireColonProvider {
 
-    provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
+    async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
 
         let linePrefix = document.lineAt(position).text.substr(0, position.character);
         if (!linePrefix.endsWith('<livewire:')) {
             return undefined;
         }
 
-        return [
-            new vscode.CompletionItem('morning', vscode.CompletionItemKind.Method),
-            new vscode.CompletionItem('afternoon', vscode.CompletionItemKind.Method),
-            new vscode.CompletionItem('evening', vscode.CompletionItemKind.Method),
-        ];
+        let completions = await getAllComponents();
+
+        return completions.map(itm => new vscode.CompletionItem(itm, vscode.CompletionItemKind.Method));
     }
 }
