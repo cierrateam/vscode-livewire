@@ -19,7 +19,7 @@ export class ShortLivewireProvider {
 
         const livewireCompletion = new vscode.CompletionItem('livewire');
         livewireCompletion.kind = vscode.CompletionItemKind.Snippet;
-        livewireCompletion.insertText = new vscode.SnippetString('livewire(${1}${2:, [\'${3:key}\' => \'${4:value}\']})');
+        livewireCompletion.insertText = new vscode.SnippetString('livewire(${1})');
         livewireCompletion.command = { command: 'editor.action.triggerSuggest', title: 'Re-trigger completions...' };
 
         // return all completion items as array
@@ -42,6 +42,19 @@ export class ShortLivewireBarektProvider {
 
         let completions = await getAllComponents();
 
-        return completions.map(itm => new vscode.CompletionItem(`'${itm}'`, vscode.CompletionItemKind.Method));
+        return completions.map(itm => {
+            let completeText = `'${itm.name}'`;
+            if (itm.params && itm.params.length) {
+                const params = [];
+                for (let i = 0; i < itm.params.length; i ++) {
+                    params.push(`'\${${i + 2}:${itm.params[i]}}' => ''`);
+                }
+                completeText += `\${1:, [${params.join(', ')}]}`;
+            }
+            const livewireCompletion = new vscode.CompletionItem(`'${itm.name}'`);
+            livewireCompletion.kind = vscode.CompletionItemKind.Method;
+            livewireCompletion.insertText = new vscode.SnippetString(completeText);
+            return livewireCompletion;
+        });
     }
 }

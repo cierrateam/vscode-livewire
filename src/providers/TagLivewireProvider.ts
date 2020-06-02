@@ -8,7 +8,7 @@ export class TagLivewireProvider {
 
         const livewireCompletion = new vscode.CompletionItem('livewire');
         livewireCompletion.kind = vscode.CompletionItemKind.Snippet;
-        livewireCompletion.insertText = new vscode.SnippetString('livewire:');
+        livewireCompletion.insertText = new vscode.SnippetString('livewire:${1}');
         livewireCompletion.command = { command: 'editor.action.triggerSuggest', title: 'Re-trigger completions...' };
 
         // return all completion items as array
@@ -29,6 +29,17 @@ export class TagLivewireColonProvider {
 
         let completions = await getAllComponents();
 
-        return completions.map(itm => new vscode.CompletionItem(itm, vscode.CompletionItemKind.Method));
+        return completions.map(itm => {
+            let params = '';
+            if (itm.params && itm.params.length) {
+                for (let i = 0; i < itm.params.length; i ++) {
+                    params += ` :\${${i + 1}:${itm.params[i]}=''}`;
+                }
+            }
+            const livewireCompletion = new vscode.CompletionItem(`'${itm.name}'`);
+            livewireCompletion.kind = vscode.CompletionItemKind.Method;
+            livewireCompletion.insertText = new vscode.SnippetString(`${itm.name}${params}>`);
+            return livewireCompletion;
+        });
     }
 }

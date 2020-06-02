@@ -20,7 +20,7 @@ function activate(context: vscode.ExtensionContext) {
 	let providerTagColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new TagLivewireColonProvider(), ':');
 
 	let providerDirective = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireProvider(), ' ');
-	let providerDirectiveColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireColonProvider(), ':');
+	let providerDirectiveColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireColonProvider(), ':', '.');
 
 	context.subscriptions.push(
 		providerShort,
