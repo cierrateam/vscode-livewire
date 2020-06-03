@@ -1,29 +1,27 @@
-# vscode-livewire README
+# Livewire Language Support
 
-This is the README for your extension "vscode-livewire". After writing up a brief description, we recommend including the following sections.
+Laravel language support for VSCode. Autocomplete, Snippets, Auto-Discover and more.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+In general thw whole syntax of livewire is supported. For example `wire:click` or `wire:ignore`.
 
-For example if there is an image subfolder under your extension project workspace:
+#### Syntax Highlighting
+Nothing red anymore! The `<livewire:component/>` tag and all the properties are nice colored.
 
+#### Snippets
+Following snippets are included:
+- @livewire
+- @livewireStyles
+- @livewireScripts
 
-## Requirements
+#### Auto-Complete Components
+This package automatically discovers components you have in your application and gives you the availability for a quick autocomplete.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+#### Auto-Discover Mount Properties
+At your components you maybe have some paramters: `<livewire:counter :title="Cierras Counter" />`. This parameters are defined in your `mount()` function. We're automatically discovering the component and creating this parameters for you, to fill them out.
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+At the moment Components from third-party libraries are not supported for the autocomplete feature.
