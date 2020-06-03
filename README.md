@@ -1,5 +1,5 @@
 # Livewire Language Support
-
+![Release Vscode Plugin](https://github.com/cierrateam/vscode-livewire/workflows/Release%20Vscode%20Plugin/badge.svg)<br>
 Laravel language support for VSCode. Autocomplete, Snippets, Auto-Discover and more.
 
 ## Features
