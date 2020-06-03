@@ -3,13 +3,13 @@
     "displayName": "Livewire Language Support",
     "description": "Snippets, Parameter Discovery, Syntax Highlighting and Formatting for Livewire",
     "publisher": "cierra",
-    "version": "0.1.0",
+    "version": "0.2.3",
     "license": "MIT",
     "icon": "images/logo.png",
     "repository": "https://github.com/cierrateam/vscode-livewire",
     "author": {
         "name": "Vittorio Emmermann",
-        "email": "vittorio@cierra.eu"
+        "email": "vittorio@cierra.de"
     },
     "engines": {
         "vscode": "^1.37.0"
