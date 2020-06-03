@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "Livewire",
-    "scopeName": "text.html.php.blade",
+    "scopeName": "text.html.livewire.php.blade",
     "fileTypes": [
         "blade.php"
     ],
@@ -9,7 +9,7 @@
     "foldingStartMarker": "(/\\*|\\{\\s*$|<<<HTML)",
     "foldingStopMarker": "(\\*/|^\\s*\\}|^HTML;)",
     "injections": {
-        "text.html.php.blade - (meta.embedded | meta.tag | comment.block.blade), L:(text.html.php.blade meta.tag - (comment.block.blade | meta.embedded.block.blade)), L:(source.js.embedded.html - (comment.block.blade | meta.embedded.block.blade))": {
+        "text.html.livewire.php.blade - (meta.embedded | meta.tag | comment.block.blade), L:(text.html.livewire.php.blade meta.tag - (comment.block.blade | meta.embedded.block.blade)), L:(source.js.embedded.html - (comment.block.blade | meta.embedded.block.blade))": {
             "patterns": [
                 {
                     "begin": "{{--",
