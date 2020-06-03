@@ -1,5 +1,5 @@
 # Livewire Language Support
-Laravel language support for VSCode. Autocomplete, Snippets, Auto-Discover and more.
+Laravel language support for VSCode. With this package you gain Autocomplete, Snippets, Auto-Discover and more.
 
 ## Features
 
