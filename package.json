@@ -95,7 +95,8 @@
         "glob": "^7.1.6",
         "mocha": "^7.0.1",
         "typescript": "^3.7.5",
-        "vscode-test": "^1.3.0"
+        "vscode-test": "^1.3.0",
+		"vscode": "~1.1.36"
     },
     "dependencies": {
         "js-beautify": "^1.10.3"
