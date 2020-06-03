@@ -3,7 +3,7 @@
     "displayName": "Livewire Language Support",
     "description": "Snippets, Parameter Discovery, Syntax Highlighting and Formatting for Livewire",
     "publisher": "cierra",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "license": "MIT",
     "icon": "images/logo.png",
     "private": true,
