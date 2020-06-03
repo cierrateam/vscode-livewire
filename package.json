@@ -46,7 +46,7 @@
         "grammars": [
             {
                 "language": "livewire",
-                "scopeName": "text.html.php.blade",
+                "scopeName": "text.html.livewire.php.blade",
                 "path": "./src/syntaxes/livewire.tmLanguage.json"
             }
         ],

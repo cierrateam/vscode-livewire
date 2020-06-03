@@ -125,7 +125,8 @@ export const covertKebabCaseToPaskalCase = (text: string) => {
 
 export const getComponentActions = async (viewFile: string) => {
     try {
-        const viewMatch = new RegExp(`${vscode.workspace.rootPath}\\resources\\views\\(.*).blade.php`.replace(/\\/g, '\\\\')).exec(viewFile);
+        viewFile = viewFile.replace(/\\/g, '/');
+        const viewMatch = new RegExp(`.*/resources/views/(.*).blade.php`).exec(viewFile);
         if (!viewMatch || !viewMatch.length) {
             throw new Error('View file path is not correct');
         }
