@@ -1,9 +1,8 @@
 import * as vscode from 'vscode';
 import {getAllComponentsWithParams} from "../util/util";
-const Beautifier = require('js-beautify').html;
 
 const editor = vscode.workspace.getConfiguration('editor');
-const config = vscode.workspace.getConfiguration('livewire');
+const config = vscode.workspace.getConfiguration('blade');
 
 export class ShortLivewireProvider {
 

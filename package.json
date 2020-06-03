@@ -23,49 +23,48 @@
         "laravel",
         "blade",
         "snippet",
-        "highlighter",
-        "beautify"
+        "highlighter"
     ],
     "activationEvents": [
-        "onLanguage:livewire"
+        "onLanguage:blade"
     ],
     "main": "./dist/extension.js",
     "contributes": {
         "languages": [
             {
-                "id": "livewire",
+                "id": "blade",
                 "aliases": [
-                    "livewire"
+                    "Blade",
+                    "blade"
                 ],
                 "extensions": [
                     ".blade.php"
                 ],
-                "configuration": "./src/languages/livewire.configuration.json"
+                "configuration": "./src/languages/blade.configuration.json"
             }
         ],
         "grammars": [
             {
-                "language": "livewire",
-                "scopeName": "text.html.livewire.php.blade",
-                "path": "./src/syntaxes/livewire.tmLanguage.json"
-            }
-        ],
-        "snippets": [
+                "language": "blade",
+                "scopeName": "text.html.php.blade",
+                "path": "./src/syntaxes/blade.tmLanguage.json"
+            },
             {
-                "language": "livewire",
-                "path": "./src/snippets/snippets.json"
+                "language": "html",
+                "scopeName": "text.html.basic",
+                "path": "./src/syntaxes/html.tmLanguage.json"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "Livewire",
+            "title": "Blade Language",
             "properties": {
-                "livewire.format.enable": {
+                "blade.format.enable": {
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable/disable formatting."
                 },
-                "livewire.newLine": {
+                "blade.newLine": {
                     "type": "boolean",
                     "default": true,
                     "description": "Insert an empty line at the end of file."
@@ -83,7 +82,7 @@
         "@types/glob": "^7.1.1",
         "@types/mocha": "^7.0.1",
         "@types/node": "^12.11.7",
-        "@types/vscode": "^1.32.0",
+        "@types/vscode": "^1.37.0",
         "@typescript-eslint/eslint-plugin": "^2.18.0",
         "@typescript-eslint/parser": "^2.18.0",
         "eslint": "^6.8.0",
@@ -91,8 +90,5 @@
         "mocha": "^7.0.1",
         "typescript": "^3.7.5",
         "vscode-test": "^1.3.0"
-    },
-    "dependencies": {
-        "js-beautify": "^1.10.3"
     }
 }
