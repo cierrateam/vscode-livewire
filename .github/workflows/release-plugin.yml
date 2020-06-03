@@ -1,0 +1,29 @@
+name: 'Release Vscode Plugin'
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  npmInstall:
+    name: npm install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: npm install
+        uses: actions/npm@master
+        with:
+          args: install --unsafe-perm
+      - name: Master
+        uses: actions/bin/filter@master
+        with:
+          args: branch master
+      - name: Vscode release plugin
+        uses: JCofman/vscodeaction@master
+        env:
+          PUBLISHER_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+        with:
+          args: publish -p $PUBLISHER_TOKEN
