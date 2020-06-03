@@ -2,84 +2,29 @@ name: 'Release Vscode Plugin'
 
 on:
   push:
-    branches: 
-      - 'feature/**' # match an pushes on feature/* and feature/<any sub branch>/*
+    branches:
       - master
-    paths-ignore: # dont run when changes made to these folders 
-      - '.vscode/**'
+
 jobs:
-  cicd:
-    name: cicd
-    runs-on: windows-latest
+  publish:
+    name: Release and publish
+    runs-on: ubuntu-18.04
     steps:
-      - name: checkout repo
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: fetch all history and tags from all branches for gitversion
-        run: git fetch --prune --unshallow
-
-      - name: install gitversion tool
-        uses: gittools/actions/gitversion/setup@v0.9
-        with:
-            versionSpec: '5.1.x'
-      
-      - name: execute gitversion
-        id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v0.9
-        
-      - name: print gitversion
-        run: |
-          echo "Major: ${{ steps.gitversion.outputs.major }}"
-          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
-          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
-          echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
-          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
-
-      - name: setup node
+      - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
-        
-      - name: clean install dependencies
+          node-version: 12
+      - name: Install dependencies
         run: yarn
-
-      - name: update metadata in package.json
-        uses: onlyutkarsh/patch-files-action@v1.0.1
-        with:
-          files: '${{github.workspace}}/package.json'
-          patch-syntax: |
-            = /version => "${{ steps.gitversion.outputs.semVer }}"
-            = /displayName => "VSIX Viewer"
-            = /description => "A simple viewer for VSIX files, which lets you see the contents of VSIX files within Visual Studio Code."
-      
-      - name: add version in CHANGELOG.md
-        uses: cschleiden/replace-tokens@v1.0
-        with:
-          files: '${{github.workspace}}/CHANGELOG.md'
+      - name: Release
         env:
-          VERSION: "${{ steps.gitversion.outputs.semVer }}"
-
-      - name: compile and create vsix
-        run: yarn package
-
-      - name: print vsix path
-        run: |
-          echo "VSIX Path: ${{ env.vsix_path }}"
-
-      - name: upload vsix as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: vsix-viewer-${{steps.gitversion.outputs.semVer}}.vsix
-          path: ${{github.workspace}}/vsix-viewer-${{steps.gitversion.outputs.semVer}}.vsix
-      - name: publish to marketplace
-        if: github.ref == 'refs/heads/master'
-        run: yarn deploy ${{ secrets.PUBLISHER_TOKEN }}
-
-      - name: create a release
-        if: github.ref == 'refs/heads/master'
-        uses: actions/create-release@v1
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        run: npx semantic-release
+      - name: Vscode release plugin
+        uses: JCofman/vscodeaction@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          PUBLISHER_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
         with:
-          tag_name: v${{ steps.gitversion.outputs.semVer }}
-          release_name: v${{ steps.gitversion.outputs.semVer }}
+          args: publish -p $PUBLISHER_TOKEN 
