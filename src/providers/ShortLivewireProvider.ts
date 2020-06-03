@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {getAllComponents} from "../util/util";
+import {getAllComponentsWithParams} from "../util/util";
 const Beautifier = require('js-beautify').html;
 
 const editor = vscode.workspace.getConfiguration('editor');
@@ -40,7 +40,7 @@ export class ShortLivewireBarektProvider {
             return undefined;
         }
 
-        let completions = await getAllComponents();
+        let completions = await getAllComponentsWithParams();
 
         return completions.map(itm => {
             let completeText = `'${itm.name}'`;

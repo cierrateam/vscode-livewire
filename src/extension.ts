@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import {ShortLivewireBarektProvider, ShortLivewireProvider} from "./providers/ShortLivewireProvider";
 import {TagLivewireColonProvider, TagLivewireProvider} from "./providers/TagLivewireProvider";
-import {DirectiveLivewireColonProvider, DirectiveLivewireProvider} from "./providers/DirectiveLivewireProvider";
+import {DirectiveLivewireColonProvider, DirectiveLivewireEventProvider, DirectiveLivewireProvider} from "./providers/DirectiveLivewireProvider";
 const Beautifier = require('js-beautify').html;
 
 const editor = vscode.workspace.getConfiguration('editor');
@@ -21,6 +21,7 @@ function activate(context: vscode.ExtensionContext) {
 
 	let providerDirective = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireProvider(), ' ');
 	let providerDirectiveColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireColonProvider(), ':', '.');
+	let providerDirectiveEvent = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireEventProvider(), '=', '\'', '\"');
 
 	context.subscriptions.push(
 		providerShort,
@@ -28,7 +29,8 @@ function activate(context: vscode.ExtensionContext) {
 		providerTag,
 		providerTagColon,
 		providerDirective,
-        providerDirectiveColon,
+				providerDirectiveColon,
+				providerDirectiveEvent,
 	);
 }
 

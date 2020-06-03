@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import {Uri} from "vscode";
-import {getAllComponents} from "../util/util";
+import {getAllComponentsWithParams} from "../util/util";
 
 export class TagLivewireProvider {
 
@@ -27,7 +27,7 @@ export class TagLivewireColonProvider {
             return undefined;
         }
 
-        let completions = await getAllComponents();
+        let completions = await getAllComponentsWithParams();
 
         return completions.map(itm => {
             let params = '';
