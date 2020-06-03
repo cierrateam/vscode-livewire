@@ -23,4 +23,4 @@ At your components you maybe have some paramters: `<livewire:counter :title="Cie
 
 ## Known Issues
 
-At the moment Components from third-party libraries are not supported for the autocomplete feature.
+At the moment we're incombatible with various Blade extensions.
