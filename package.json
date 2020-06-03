@@ -82,7 +82,6 @@
 		"deploy": "vsce publish -p",
 		"prune-branches": "git remote prune origin",
 		"clean": "git clean -fdX"
-		// "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
         "@types/glob": "^7.1.1",
