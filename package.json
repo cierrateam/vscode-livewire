@@ -3,7 +3,8 @@
     "displayName": "Livewire Language Support",
     "description": "Snippets, Parameter Discovery, Syntax Highlighting and Formatting for Livewire",
     "publisher": "cierra",
-    "version": "0.0.1",
+    "version": "0.1.0",
+    "icon": "images/logo.png",
     "author": {
         "name": "Vittorio Emmermann",
         "email": "vittorio@cierra.eu"
