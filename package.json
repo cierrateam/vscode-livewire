@@ -5,6 +5,7 @@
     "publisher": "cierra",
     "version": "0.1.0",
     "icon": "images/logo.png",
+    "repository": "https://github.com/cierrateam/vscode-livewire",
     "author": {
         "name": "Vittorio Emmermann",
         "email": "vittorio@cierra.eu"
