@@ -1,6 +1,5 @@
 # Livewire Language Support
-![Release Vscode Plugin](https://github.com/cierrateam/vscode-livewire/workflows/Release%20Vscode%20Plugin/badge.svg)<br>
-Laravel language support for VSCode. Autocomplete, Snippets, Auto-Discover and more.
+Laravel language support for VSCode. With this package you gain functionallities like autocomplete, snippets, auto-discovery of properties and more.
 
 ## Features
 
@@ -24,4 +23,4 @@ At your components you maybe have some paramters: `<livewire:counter :title="Cie
 
 ## Known Issues
 
-At the moment Components from third-party libraries are not supported for the autocomplete feature.
+At the moment we're incombatible with various Blade extensions.

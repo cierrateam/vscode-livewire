@@ -3,9 +3,10 @@
     "displayName": "Livewire Language Support",
     "description": "Snippets, Parameter Discovery, Syntax Highlighting and Formatting for Livewire",
     "publisher": "cierra",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "license": "MIT",
     "icon": "images/logo.png",
+    "private": true,
     "repository": "https://github.com/cierrateam/vscode-livewire",
     "author": {
         "name": "Vittorio Emmermann",
@@ -73,10 +74,14 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "yarn run compile",
+        "vscode:prepublish": "tsc -p ./",
         "compile": "tsc -p ./",
         "lint": "eslint src --ext ts",
-        "watch": "tsc -watch -p ./"
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package",
+        "deploy": "vsce publish -p",
+        "prune-branches": "git remote prune origin",
+        "clean": "git clean -fdX"
     },
     "devDependencies": {
         "@types/glob": "^7.1.1",
