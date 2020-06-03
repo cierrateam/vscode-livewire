@@ -46,13 +46,15 @@ export const getComponentClassSource = async (component: string, srcFile?: strin
                 srcFile = match[1];
             }
         }
+
         if (!srcFile) {
             throw new Error('Cannot find class src file');
         }
-        
+
+        srcFile = srcFile.replace(/\\\\/g, '/');
         const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/${srcFile}.php`));
         return doc.getText();
-        
+
         // component = covertKebabCaseToPaskalCase(component);
         // const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/${srcFile}.php`));
         // const match = new RegExp(`class\\s*${component}[^{]*{[^]*`, 'mg').exec(doc.getText());
@@ -76,11 +78,11 @@ export const getComponentClassSource = async (component: string, srcFile?: strin
         //         break;
         //     }
         // } while(true);
-        
+
         // if (!regex.lastIndex) {
         //     throw new Error('Infinitive class');
         // }
-        
+
         // return match[0].substr(0, regex.lastIndex);
     } catch (e) {
         return null;
