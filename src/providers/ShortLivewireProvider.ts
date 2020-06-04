@@ -8,6 +8,11 @@ export class ShortLivewireProvider {
 
     provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
 
+        const linePrefix = document.lineAt(position).text.substr(0, position.character);
+        if (!linePrefix.endsWith('@')) {
+            return undefined;
+        }
+        
         const livewireScriptsCompletion = new vscode.CompletionItem('livewireScripts');
         livewireScriptsCompletion.kind = vscode.CompletionItemKind.Snippet;
         livewireScriptsCompletion.documentation = new vscode.MarkdownString("Include the JavaScript");
@@ -34,12 +39,12 @@ export class ShortLivewireBarektProvider {
 
     async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
 
-        let linePrefix = document.lineAt(position).text.substr(0, position.character);
+        const linePrefix = document.lineAt(position).text.substr(0, position.character);
         if (!linePrefix.endsWith('@livewire(')) {
             return undefined;
         }
 
-        let completions = await getAllComponentsWithParams();
+        const completions = await getAllComponentsWithParams();
 
         return completions.map(itm => {
             let completeText = `'${itm.name}'`;

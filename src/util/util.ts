@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export const getAllComponents = async () => {
+export const getAllComponents = async (prefix?: string) => {
     let completions = [];
 
     try {
@@ -8,11 +8,13 @@ export const getAllComponents = async () => {
 
         for (let i = 0; i < doc.lineCount; i++) {
             const match = /'(.*)'\s*=>\s*'(.*)',*/g.exec(doc.lineAt(i).text);
-            if (match && match.length >= 2) {
-                completions.push({
-                    name: match[1],
-                    srcFile: match[2],
-                });
+            if (match && match.length >= 3) {
+                if (!prefix || match[1].startsWith(prefix)) {
+                    completions.push({
+                        name: match[1],
+                        srcFile: match[2],
+                    });
+                }
             }
         }
     } catch (e) {}
@@ -20,11 +22,11 @@ export const getAllComponents = async () => {
     return completions;
 };
 
-export const getAllComponentsWithParams = async () => {
+export const getAllComponentsWithParams = async (prefix?: string) => {
     let completions = [];
 
     try {
-        const components = await getAllComponents();
+        const components = await getAllComponents(prefix);
         for (const component of components) {
             const params = await getComponentParams(component.name, component.srcFile);
             completions.push({
@@ -123,15 +125,14 @@ export const covertKebabCaseToPaskalCase = (text: string) => {
     return resText;
 };
 
-export const getComponentActions = async (viewFile: string) => {
+export const getComponentFromView = async (viewFile: string) => {
     try {
         viewFile = viewFile.replace(/\\/g, '/');
         const viewMatch = new RegExp(`.*/resources/views/(.*).blade.php`).exec(viewFile);
         if (!viewMatch || !viewMatch.length) {
             throw new Error('View file path is not correct');
         }
-        const view = viewMatch[1].replace(/\\/g, '\\.');
-        console.log(view);
+        const view = viewMatch[1].replace(/\//g, '\\.');
         const components = await getAllComponents();
         for (const component of components) {
             const classText = await getComponentClassSource(component.name, component.srcFile);
@@ -139,23 +140,9 @@ export const getComponentActions = async (viewFile: string) => {
                 continue;
             }
             let match = new RegExp(view, 'mg').exec(classText);
-            if (!match) {
-                continue;
+            if (match) {
+                return component;
             }
-            const regex = /^\s*(?:public\s+)?function\s*(\w+)/mg;
-            const actions = [];
-            while (true) {
-                match = regex.exec(classText);
-                if (!match) {
-                    break;
-                }
-                if (match && match.length) {
-                    if (match[1] !== 'mount' && match[1] !== 'render') {
-                        actions.push(match[1]);
-                    }
-                }
-            }
-            return actions;
         }
         return null;
     } catch (e) {
@@ -163,39 +150,57 @@ export const getComponentActions = async (viewFile: string) => {
     }
 };
 
-export const getComponentProperties = async (viewFile: string) => {
+export const getComponentActions = async (viewFile: string) => {
     try {
-        viewFile = viewFile.replace(/\\/g, '/');
-        const viewMatch = new RegExp(`.*/resources/views/(.*).blade.php`).exec(viewFile);
-        if (!viewMatch || !viewMatch.length) {
-            throw new Error('View file path is not correct');
+        const component = await getComponentFromView(viewFile);
+        if (!component) {
+            throw new Error('Cannot find component');
         }
-        const view = viewMatch[1].replace(/\\/g, '\\.');
-        console.log(view);
-        const components = await getAllComponents();
-        for (const component of components) {
-            const classText = await getComponentClassSource(component.name, component.srcFile);
-            if (!classText) {
-                continue;
-            }
-            let match = new RegExp(view, 'mg').exec(classText);
+        const classText = await getComponentClassSource(component.name, component.srcFile);
+        if (!classText) {
+            throw new Error('Cannot find component source');
+        }
+        const regex = /^\s*(?:public\s+)?function\s*(\w+)/mg;
+        const actions = [];
+        while (true) {
+            const match = regex.exec(classText);
             if (!match) {
-                continue;
+                break;
             }
-            const regex = /public\s+\$(\w+)/mg;
-            const actions = [];
-            while (true) {
-                match = regex.exec(classText);
-                if (!match) {
-                    break;
-                }
-                if (match && match.length) {
+            if (match && match.length) {
+                if (match[1] !== 'mount' && match[1] !== 'render') {
                     actions.push(match[1]);
                 }
             }
-            return actions;
         }
+        return actions;
+    } catch (e) {
         return null;
+    }
+};
+
+export const getComponentProperties = async (viewFile: string) => {
+    try {
+        const component = await getComponentFromView(viewFile);
+        if (!component) {
+            throw new Error('Cannot find component');
+        }
+        const classText = await getComponentClassSource(component.name, component.srcFile);
+        if (!classText) {
+            throw new Error('Cannot find component source');
+        }
+        const regex = /public\s+\$(\w+)/mg;
+        const actions = [];
+        while (true) {
+            const match = regex.exec(classText);
+            if (!match) {
+                break;
+            }
+            if (match && match.length) {
+                actions.push(match[1]);
+            }
+        }
+        return actions;
     } catch (e) {
         return null;
     }
