@@ -23,4 +23,4 @@ At your components you maybe have some paramters: `<livewire:counter :title="Cie
 
 ## Known Issues
 
-At the moment we're incombatible with various Blade extensions.
+At the moment components from third-party packages are not supported.
