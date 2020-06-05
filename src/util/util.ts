@@ -4,17 +4,19 @@ export const getAllComponents = async (prefix?: string) => {
     let completions = [];
 
     try {
-        const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/bootstrap/cache/livewire-components.php`));
-
-        for (let i = 0; i < doc.lineCount; i++) {
-            const match = /'(.*)'\s*=>\s*'(.*)',*/g.exec(doc.lineAt(i).text);
-            if (match && match.length >= 3) {
-                if (!prefix || match[1].startsWith(prefix)) {
-                    completions.push({
-                        name: match[1],
-                        srcFile: match[2],
-                    });
-                }
+        const doc = await vscode.workspace.fs.readFile(vscode.Uri.file(`${vscode.workspace.rootPath}/bootstrap/cache/livewire-components.php`));
+        const text = doc.toString();
+        const regex = /'(.*)'\s*=>\s*'(.*)',*/g;
+        while (true) {
+            const match = regex.exec(text);
+            if (!match || match.length < 3) {
+                break;
+            }
+            if (!prefix || match[1].startsWith(prefix)) {
+                completions.push({
+                    name: match[1],
+                    srcFile: match[2],
+                });
             }
         }
     } catch (e) {}
@@ -39,23 +41,31 @@ export const getAllComponentsWithParams = async (prefix?: string) => {
     return completions;
 };
 
+export const getComponentPath = async (componentName: string) => {
+    try {
+        const compoenents = await getAllComponents();
+        const component = compoenents.find((component) => component.name === componentName);
+        if (!component) {
+            throw new Error('Cannot find component');
+        }
+        return component.srcFile;
+    } catch (e) {
+        return undefined;
+    }
+};
+
 export const getComponentClassSource = async (component: string, srcFile?: string) => {
     try {
         if (!srcFile) {
-            const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/bootstrap/cache/livewire-components.php`));
-            const match = new RegExp(`'${component}'\\s*=>\\s*'(.*)',*`, 'mg').exec(doc.getText());
-            if (match && match.length) {
-                srcFile = match[1];
-            }
+            srcFile = await getComponentPath(component);
         }
-
         if (!srcFile) {
             throw new Error('Cannot find class src file');
         }
 
         srcFile = srcFile.replace(/\\\\/g, '/');
-        const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/${srcFile}.php`));
-        return doc.getText();
+        const doc = await vscode.workspace.fs.readFile(vscode.Uri.file(`${vscode.workspace.rootPath}/${srcFile}.php`));
+        return doc.toString();
 
         // component = covertKebabCaseToPaskalCase(component);
         // const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(`${vscode.workspace.rootPath}/${srcFile}.php`));

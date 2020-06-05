@@ -16,7 +16,7 @@ function activate(context: vscode.ExtensionContext) {
 	let providerShortBarekt = vscode.languages.registerCompletionItemProvider(LANGUAGES, new ShortLivewireBarektProvider(), '(');
 
 	let providerTag = vscode.languages.registerCompletionItemProvider(LANGUAGES, new TagLivewireProvider(), '<');
-	let providerTagColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new TagLivewireColonProvider(), ':', '.', '-');
+	let providerTagColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new TagLivewireColonProvider(), ...":.-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
 
 	let providerDirective = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireProvider(), ' ');
 	let providerDirectiveColon = vscode.languages.registerCompletionItemProvider(LANGUAGES, new DirectiveLivewireColonProvider(), ':', '.');
