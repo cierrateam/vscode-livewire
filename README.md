@@ -3,7 +3,7 @@ Laravel language support for VSCode. With this package you gain functionallities
 
 ## Features
 
-In general thw whole syntax of livewire is supported. For example `wire:click` or `wire:ignore`.
+In general the whole syntax of livewire is supported. For example `wire:click` or `wire:ignore`.
 
 #### Syntax Highlighting
 Nothing red anymore! The `<livewire:component/>` tag and all the properties are nice colored.
